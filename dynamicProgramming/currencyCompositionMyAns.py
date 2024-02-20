@@ -1,21 +1,20 @@
 N, M = map(int, input().split())
-data = [10001]*10001
 currency = []
 for _ in range(N):
-    money = int(input())
-    currency.append(money)
-    data[money] = 1
+    currency.append(int(input()))
 
 currency.sort()
 
-for i in range(currency[0]+1, 10001):
-    for j in currency:
-        if i-j<0:
-            continue
-        else:
-            data[i] = min(data[i], data[i-j]+1)
+dp = [-1]*10001
 
-if data[M]>10000:
-    print(-1)
-else:
-    print(data[M])
+dp[0] = 0
+
+for i in currency:
+    dp[i] = 1
+
+for i in range(1, 10001):
+    for j in currency:
+        if dp[i-j]!=-1 and i-j>=0:
+            dp[i] = dp[i-j]+1
+
+print(dp[M])
